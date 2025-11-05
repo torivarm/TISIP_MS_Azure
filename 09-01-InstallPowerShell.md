@@ -342,3 +342,178 @@ Nå som du har både **PowerShell 7** og **VS Code** installert, er du klar til 
 * Skrive og kjøre PowerShell-skript (`.ps1`-filer)
 * Utforske terminalen direkte i VS Code
 * Begynne å jobbe med variabler, løkker og systemadministrasjon!
+
+# Sette opp Visual Studio Code for PowerShell-scripting
+
+Nå som du har installert **PowerShell 7** og **Visual Studio Code (VS Code)**, er du klar til å begynne å **skrive, kjøre og teste PowerShell-skript** på en trygg og effektiv måte.
+
+I denne veiviseren lærer du hvordan du:
+1. Setter opp VS Code til å jobbe med PowerShell  
+2. Lager ditt første PowerShell-skript  
+3. Kjører og feilsøker skriptet  
+4. Aktiverer skriptkjøring (Execution Policy)
+
+---
+
+## 1. Åpne PowerShell-miljøet i VS Code
+
+1. Start **VS Code**  
+2. Åpne den innebygde terminalen
+3. Du skal nå se noe som dette nederst i vinduet:
+```
+
+PS C:\Users\dittnavn>
+
+```
+Hvis terminalen viser “bash” eller “cmd”, kan du bytte til PowerShell ved å:
+- Klikke på den lille pilen ved siden av terminalnavnet  
+- Velge **Select Default Profile → PowerShell**  
+- Trykke på **+** for å åpne en ny PowerShell-terminal
+
+---
+
+## 📁 2. Opprett en prosjektmappe
+
+Det er lurt å samle PowerShell-filer i en egen mappe.
+
+1. Opprett en mappe på ønsket sted som heter:
+```
+PowerShellProsjekt
+````
+
+2. Åpne mappen i VS Code (Open Folder)
+![alt text](img/openfolder.png)
+
+---
+
+## 📝 3. Lag ditt første PowerShell-skript
+
+1. I VS Code, klikk på **New File** (øverst til venstre)
+
+2. Gi filen navnet:
+
+   ```
+   hei.ps1
+   ```
+
+   (`.ps1` forteller systemet at dette er et PowerShell-skript)
+![alt text](img/newPS1.png)
+3. Skriv inn følgende kode i filen:
+
+   ```powershell
+   # Dette er ditt første PowerShell-skript!
+   Write-Host "Hei, PowerShell-verden!"
+   ```
+
+4. Lagre filen med **Ctrl + S** (Windows) eller **Cmd + S** (Mac)
+
+---
+
+## ▶️ 4. Kjør PowerShell-skriptet i VS Code
+
+Du kan kjøre skriptet direkte i terminalen nederst i VS Code.
+
+Skriv (Windows):
+
+```powershell
+.\hei.ps1
+```
+
+Du skal se:
+
+```
+Hei, PowerShell-verden!
+```
+
+🎉 Gratulerer – du har nettopp kjørt ditt første PowerShell-skript!
+
+---
+
+## 🚫 5. Feilmelding? Aktiver skriptkjøring
+
+Hvis du får en melding som ligner på:
+
+```
+File C:\Users\dittnavn\Desktop\PowerShellProsjekt\hei.ps1 cannot be loaded because running scripts is disabled on this system.
+```
+
+... betyr det at **Execution Policy** forhindrer kjøring av skript. Dette er en sikkerhetsfunksjon.
+
+For å aktivere kjøring av lokale skript:
+
+1. Åpne VS Code-terminalen som **administrator** (kun Windows):
+
+   * Søk etter “VS Code” i Startmenyen
+   * Høyreklikk → “Kjør som administrator”
+
+2. Kjør denne kommandoen:
+
+   ```powershell
+   Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+
+3. Trykk **Y** og Enter for å bekrefte.
+
+Dette tillater kjøring av skript du selv har laget, men beskytter deg fortsatt mot ukjente eksterne skript.
+
+---
+
+## 🔍 6. Test Execution Policy
+
+Skriv:
+
+```powershell
+Get-ExecutionPolicy
+```
+
+Hvis du ser:
+
+```
+RemoteSigned
+```
+
+... da er alt riktig konfigurert!
+
+---
+
+## 🧠 7. Bonus: Bruk av PowerShell-integrasjonen i VS Code
+
+Når du har installert **PowerShell-utvidelsen**, får du flere nyttige funksjoner:
+
+* **Fargekoding** av PowerShell-syntaks
+* **Autoutfylling** av kommandoer (IntelliSense)
+* **Dokumentasjon** vises når du holder musepekeren over kommandoer
+* **Feilmeldinger** vises direkte i editoren
+
+Prøv å skrive:
+
+```powershell
+Get-
+```
+
+… og se hvordan VS Code foreslår kommandoer du kan bruke.
+
+---
+
+## 8. Nyttige hurtigtaster i VS Code for PowerShell
+
+| Funksjon        | Windows            | macOS             |
+| --------------- | ------------------ | ----------------- |
+| Kjør valgt kode | `F8`               | `F8`              |
+| Åpne terminal   | `Ctrl + ``         | `Cmd + ``         |
+| Lagre fil       | `Ctrl + S`         | `Cmd + S`         |
+| Kommenter linje | `Ctrl + /`         | `Cmd + /`         |
+| Åpne utvidelser | `Ctrl + Shift + X` | `Cmd + Shift + X` |
+
+---
+
+## ✅ Oppsummering
+
+| Trinn | Hva du gjorde              | Kommando / handling                                   |
+| ----- | -------------------------- | ----------------------------------------------------- |
+| 1     | Åpnet PowerShell i VS Code | `Ctrl + ``                                            |
+| 2     | Laget nytt skript          | `hei.ps1`                                             |
+| 3     | Kjørte skriptet            | `.\hei.ps1`                                           |
+| 4     | Aktiverte skriptkjøring    | `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` |
+
+---
