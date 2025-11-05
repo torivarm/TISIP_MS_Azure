@@ -297,7 +297,7 @@ Remove-AzResourceGroup -Name $rg -Force -AsJob
 
 1. **Standardoppsett**
 
-   * Sett `$location = "norwayeast"` og `$rg = "rg-student-<dittnavn>"`
+   * Sett `$location = "norwayeast"` og `$rg = "rg-student-<dittnavn>"` # HUSK VELG LOCATION SOM TILLATES
    * Opprett RG og legg på tags: `Owner`, `Environment`, `Course`
 
 2. **Lagring**
