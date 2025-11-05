@@ -240,21 +240,10 @@ Get-MgGroupMember -GroupId $group.Id -All | Select DisplayName, Id
 
 ## Beste praksis (kort)
 
-* **Minste nødvendige scopes** når du kjører `Connect-MgGraph`. ([Practical 365][10])
+* **Minste nødvendige scopes** når du kjører `Connect-MgGraph`.
 * **Tags/standardnavn** i variabler for konsistens (kap. 2).
 * **Idempotens**: sjekk om objekt finnes før opprettelse (if/try).
 * **Logg feil** i `catch` og fortsett neste element i masseoperasjoner.
 * **Rydd opp** i lab-ressurser: fjern testbrukere og grupper.
 
 ---
-
-[1]: https://learn.microsoft.com/en-us/powershell/microsoftgraph/authentication-commands?view=graph-powershell-1.0&utm_source=chatgpt.com "Use Microsoft Graph PowerShell authentication commands"
-[2]: https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.users/new-mguser?view=graph-powershell-1.0&utm_source=chatgpt.com "New-MgUser (Microsoft.Graph.Users)"
-[3]: https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.groups/new-mggroup?view=graph-powershell-1.0&utm_source=chatgpt.com "New-MgGroup (Microsoft.Graph.Groups)"
-[4]: https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.groups/new-mggroupmemberbyref?view=graph-powershell-1.0&utm_source=chatgpt.com "New-MgGroupMemberByRef (Microsoft.Graph.Groups)"
-[5]: https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.groups/new-mggroupownerbyref?view=graph-powershell-1.0&utm_source=chatgpt.com "New-MgGroupOwnerByRef (Microsoft.Graph.Groups)"
-[6]: https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.identity.directorymanagement/get-mgdirectoryrole?view=graph-powershell-1.0&utm_source=chatgpt.com "Get-MgDirectoryRole (Microsoft.Graph.Identity. ..."
-[7]: https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.identity.directorymanagement/new-mgdirectoryrole?view=graph-powershell-1.0&utm_source=chatgpt.com "New-MgDirectoryRole (Microsoft.Graph.Identity. ..."
-[8]: https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.identity.directorymanagement/new-mgdirectoryrolememberbyref?view=graph-powershell-1.0&utm_source=chatgpt.com "New-MgDirectoryRoleMemberByRef (Microsoft.Graph. ..."
-[9]: https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.identity.directorymanagement/get-mgdirectoryroletemplate?view=graph-powershell-1.0&utm_source=chatgpt.com "Get-MgDirectoryRoleTemplate (Microsoft.Graph.Identity. ..."
-[10]: https://practical365.com/microsoft-graph-api-permission/?utm_source=chatgpt.com "How to Figure Out What Microsoft Graph Permissions You ..."
