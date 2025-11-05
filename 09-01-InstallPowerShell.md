@@ -239,6 +239,7 @@ Når du åpner VS Code første gang, anbefales det å installere PowerShell-utvi
 3. Velg *PowerShell* fra Microsoft og trykk **Installer**.
 4. Kontroller at du får PowerShell i Terminalen. Dra terminalen opp fra bunnen av kjermen:
    1. ![alt text](img/terminal.png)
+   2. ![alt text](img/terminal2.png)
 
 Denne utvidelsen gir deg:
 
