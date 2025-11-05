@@ -269,7 +269,7 @@ Bruk denne kommandoen for å installere VS Code:
 ```bash
 brew install --cask visual-studio-code
 ```
-
+[Brew - VS Code](https://formulae.brew.sh/cask/visual-studio-code)
 Dette laster ned og installerer den nyeste versjonen av VS Code på din Mac.
 
 ---
@@ -279,19 +279,6 @@ Dette laster ned og installerer den nyeste versjonen av VS Code på din Mac.
 Du kan åpne VS Code på flere måter:
 
 * Søk etter **Visual Studio Code** i Spotlight (Cmd + Space → skriv "Visual Studio Code")
-* Eller skriv følgende i Terminal:
-
-  ```bash
-  code
-  ```
-[Brew - VS Code](https://formulae.brew.sh/cask/visual-studio-code)
-Hvis `code`-kommandoen ikke fungerer umiddelbart, åpne VS Code, trykk **Cmd + Shift + P**, og skriv:
-
-```
-Shell Command: Install 'code' command in PATH
-```
-
-Trykk Enter. Etter dette vil `code`-kommandoen fungere fra Terminal.
 
 ---
 
