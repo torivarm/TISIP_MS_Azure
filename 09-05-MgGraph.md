@@ -161,7 +161,8 @@ Update-MgUser -UserId $upn -AccountEnabled:$false
 
 ---
 
-## 8) Små verktøyfunksjoner (funksjoner & parametre)
+## 8) Små verktøyfunksjoner (funksjoner & parametre) - Gjenbrukbare funksjoner som kan settes inn i script.
+Disse funksjonene kan settes inn i script og kalles opp med kommandoen: New-StudentUser -DisplayName "Test Testesen" -UserPrincipalName "test.testesen@<ERSTATT MED DIN TENANT>.onmicrosoft.com" -MailNickname "test.testesen" -Password "SuperHemmeligPassord123!"
 
 ```powershell
 function New-StudentUser {
@@ -182,7 +183,7 @@ function New-StudentUser {
                -MailNickname $MailNickname -AccountEnabled:$true -PasswordProfile $pwd `
                -ErrorAction Stop
   }
-  catch { throw "Opprettelse feilet for $UserPrincipalName: $($_.Exception.Message)" }
+  catch { throw "Opprettelse feilet for $UserPrincipalName $($_.Exception.Message)" }
 }
 
 function Add-UserToGroup {
