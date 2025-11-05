@@ -57,9 +57,9 @@ Chocolatey er en pakkehåndterer for Windows – som gjør det enkelt å install
 Nå kan du installere PowerShell 7 med én enkel kommando:
 
 ```powershell
-choco install powershell -y
+choco install powershell-core -y
 ```
-
+[Choco - PowerShell Core](https://community.chocolatey.org/packages/powershell-core/7.5.4)
 Flagget `-y` betyr at du automatisk godtar installasjonsbekreftelsen.
 
 ---
@@ -178,13 +178,181 @@ Da vet du at PowerShell 7 fungerer som det skal!
 
 ---
 
-### 🎯 Neste steg
+### Neste steg - Installer VS Code
 
-Når PowerShell er installert og fungerer, er du klar til å begynne å lære de første kommandoene — for eksempel hvordan du navigerer i mapper, oppretter filer og bruker variabler!
+# Installere Visual Studio Code (VS Code)
 
-```
+Visual Studio Code (VS Code) er en gratis og kraftig **kodeeditor** utviklet av Microsoft.  
+Den passer perfekt sammen med PowerShell, fordi den gir:
+- Fargekoding og autoutfylling av kommandoer  
+- Terminal integrert i editoren  
+- Mulighet for å kjøre PowerShell direkte i editoren  
+- Støtte for utvidelser (extensions) for PowerShell og andre språk  
 
 ---
 
-Vil du at jeg skal lage en **fortsettelse** av denne veiviseren som tar for seg *hvordan man åpner og bruker PowerShell første gang* (f.eks. navigasjon, hjelp-systemet, `Get-Command`, `Get-Help`, osv.) — slik at studentene får en god start etter installasjonen?
+## Installasjon på Windows med Chocolatey
+
+### 1. Sørg for at Chocolatey er installert
+Hvis du allerede har fulgt installasjonsveiviseren for PowerShell 7, har du trolig Chocolatey klart.  
+Sjekk ved å kjøre:
+```powershell
+choco --version
+````
+
+Hvis du får et versjonsnummer, kan du gå videre.
+Hvis ikke, gå tilbake til veiviseren for **installasjon av PowerShell 7** og følg trinnene der for å installere Chocolatey først.
+
+---
+
+### 2. Installer VS Code via Chocolatey
+
+Kjør følgende kommando i PowerShell (som Administrator):
+
+```powershell
+choco install vscode -y
 ```
+[Choco - VS Code](https://community.chocolatey.org/packages/vscode)
+Forklaring:
+
+* `vscode` er pakkenavnet for Visual Studio Code
+* `-y` godtar lisensvilkår automatisk
+
+Chocolatey vil nå laste ned og installere VS Code for deg.
+
+---
+
+### 3. Start VS Code
+
+Etter installasjonen kan du starte Visual Studio Code ved å:
+
+* Søke etter **Visual Studio Code** i Startmenyen
+* Eller skrive `code` i PowerShell-terminalen (merk: du må kanskje logge ut og inn for at `code`-kommandoen skal fungere første gang)
+
+---
+
+### 4. Installer PowerShell-utvidelsen i VS Code
+
+Når du åpner VS Code første gang, anbefales det å installere PowerShell-utvidelsen.
+
+1. Trykk **Ctrl + Shift + X** for å åpne utvidelsesmenyen.
+2. Søk etter **PowerShell**.
+3. Velg *PowerShell* fra Microsoft og trykk **Installer**.
+
+Denne utvidelsen gir deg:
+
+* Syntax highlighting
+* IntelliSense (autofullføring)
+* Integrert terminal for PowerShell
+
+---
+
+## 🍎 Installasjon på macOS med Homebrew
+
+### 1. Kontroller at Homebrew er installert
+
+Skriv følgende kommando i Terminal:
+
+```bash
+brew --version
+```
+
+Hvis du ser et versjonsnummer, er Homebrew klart.
+Hvis ikke, se installasjonsveiviseren for PowerShell 7 for hvordan du installerer Homebrew.
+
+---
+
+### 2. Installer Visual Studio Code via Homebrew
+
+Bruk denne kommandoen for å installere VS Code:
+
+```bash
+brew install --cask visual-studio-code
+```
+
+Dette laster ned og installerer den nyeste versjonen av VS Code på din Mac.
+
+---
+
+### 3. Start VS Code
+
+Du kan åpne VS Code på flere måter:
+
+* Søk etter **Visual Studio Code** i Spotlight (Cmd + Space → skriv "Visual Studio Code")
+* Eller skriv følgende i Terminal:
+
+  ```bash
+  code
+  ```
+
+Hvis `code`-kommandoen ikke fungerer umiddelbart, åpne VS Code, trykk **Cmd + Shift + P**, og skriv:
+
+```
+Shell Command: Install 'code' command in PATH
+```
+
+Trykk Enter. Etter dette vil `code`-kommandoen fungere fra Terminal.
+
+---
+
+### 4. Installer PowerShell-utvidelsen i VS Code
+
+Når VS Code er åpnet:
+
+1. Trykk **Cmd + Shift + X** for å åpne utvidelsesmenyen.
+2. Søk etter **PowerShell**.
+3. Trykk **Installer** på utvidelsen laget av Microsoft.
+
+Dette gir deg et fullt PowerShell-miljø direkte i VS Code!
+
+---
+
+## ✅ Test at alt fungerer
+
+1. Åpne VS Code
+2. Trykk **Ctrl + `** (Windows) eller **Cmd + `** (Mac) for å åpne den innebygde terminalen
+3. Skriv:
+
+   ```powershell
+   $PSVersionTable.PSVersion
+   ```
+
+   Hvis du ser PowerShell 7-versjonen din – da fungerer alt perfekt!
+
+---
+
+## 💡 Tips og anbefalinger
+
+* Installer gjerne utvidelsen **"Material Icon Theme"** for å få tydeligere mapper og filikoner.
+
+* Du kan åpne en mappe direkte i VS Code ved å skrive:
+
+  ```bash
+  code .
+  ```
+
+  (punktumet betyr "nåværende mappe")
+
+* For å holde VS Code oppdatert:
+
+  * **Windows:** `choco upgrade vscode -y`
+  * **macOS:** `brew upgrade --cask visual-studio-code`
+
+---
+
+## 📦 Oppsummering
+
+| Operativsystem | Pakkehåndterer | Installasjonskommando                    |
+| -------------- | -------------- | ---------------------------------------- |
+| Windows        | Chocolatey     | `choco install vscode -y`                |
+| macOS          | Homebrew       | `brew install --cask visual-studio-code` |
+
+---
+
+### 🎯 Neste steg
+
+Nå som du har både **PowerShell 7** og **VS Code** installert, er du klar til å:
+
+* Skrive og kjøre PowerShell-skript (`.ps1`-filer)
+* Utforske terminalen direkte i VS Code
+* Begynne å jobbe med variabler, løkker og systemadministrasjon!
