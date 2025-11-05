@@ -227,7 +227,6 @@ Chocolatey vil nå laste ned og installere VS Code for deg.
 Etter installasjonen kan du starte Visual Studio Code ved å:
 
 * Søke etter **Visual Studio Code** i Startmenyen
-* Eller skrive `code` i PowerShell-terminalen (merk: du må kanskje logge ut og inn for at `code`-kommandoen skal fungere første gang)
 
 ---
 
@@ -238,6 +237,8 @@ Når du åpner VS Code første gang, anbefales det å installere PowerShell-utvi
 1. Trykk **Ctrl + Shift + X** for å åpne utvidelsesmenyen.
 2. Søk etter **PowerShell**.
 3. Velg *PowerShell* fra Microsoft og trykk **Installer**.
+4. Kontroller at du får PowerShell i Terminalen. Dra terminalen opp fra bunnen av kjermen:
+   1. ![alt text](img/terminal.png)
 
 Denne utvidelsen gir deg:
 
@@ -297,7 +298,7 @@ Dette gir deg et fullt PowerShell-miljø direkte i VS Code!
 ## ✅ Test at alt fungerer
 
 1. Åpne VS Code
-2. Trykk **Ctrl + `** (Windows) eller **Cmd + `** (Mac) for å åpne den innebygde terminalen
+2. Trykk **Ctrl + Shit + `** (Mac) for å åpne den innebygde terminalen
 3. Skriv:
 
    ```powershell
@@ -312,13 +313,6 @@ Dette gir deg et fullt PowerShell-miljø direkte i VS Code!
 
 * Installer gjerne utvidelsen **"Material Icon Theme"** for å få tydeligere mapper og filikoner.
 
-* Du kan åpne en mappe direkte i VS Code ved å skrive:
-
-  ```bash
-  code .
-  ```
-
-  (punktumet betyr "nåværende mappe")
 
 * For å holde VS Code oppdatert:
 
