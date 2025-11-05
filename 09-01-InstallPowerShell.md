@@ -228,6 +228,11 @@ Etter installasjonen kan du starte Visual Studio Code ved å:
 
 * Søke etter **Visual Studio Code** i Startmenyen
 
+1. Kontroller at du får PowerShell i Terminalen. Dra terminalen opp fra bunnen av kjermen:
+   1. ![alt text](img/terminal.png)
+   2. ![alt text](img/terminal2.png)
+   3. ![alt text](img/velgPowerShell.png)
+
 ---
 
 ### 4. Installer PowerShell-utvidelsen i VS Code
@@ -237,9 +242,7 @@ Når du åpner VS Code første gang, anbefales det å installere PowerShell-utvi
 1. Trykk **Ctrl + Shift + X** for å åpne utvidelsesmenyen.
 2. Søk etter **PowerShell**.
 3. Velg *PowerShell* fra Microsoft og trykk **Installer**.
-4. Kontroller at du får PowerShell i Terminalen. Dra terminalen opp fra bunnen av kjermen:
-   1. ![alt text](img/terminal.png)
-   2. ![alt text](img/terminal2.png)
+
 
 Denne utvidelsen gir deg:
 
