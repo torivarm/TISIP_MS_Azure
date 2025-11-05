@@ -302,7 +302,10 @@ Dette gir deg et fullt PowerShell-miljø direkte i VS Code!
 ## ✅ Test at alt fungerer
 
 1. Åpne VS Code
-2. Trykk **Ctrl + Shit + `** (Mac) for å åpne den innebygde terminalen
+2. Trykk **Ctrl + Shit + `** (Mac) for å åpne den innebygde terminalen, eller dra linjen opp fra bunnen
+   1. ![alt text](img/terminal.png)
+   2. ![alt text](img/terminal2.png)
+   3. ![alt text](img/velgPowerShell.png)
 3. Skriv:
 
    ```powershell
