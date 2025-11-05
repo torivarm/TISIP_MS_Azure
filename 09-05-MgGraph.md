@@ -233,7 +233,7 @@ Get-MgGroupMember -GroupId $group.Id -All | Select DisplayName, Id
 
 ## Viktige begrensninger med Entra ID Free
 
-* **Ingen dynamiske grupper** og **ingen gruppelisensiering** (kr. P1).
+* **Ingen dynamiske grupper** og **ingen gruppelisensiering**.
 * Innebygde **roller** kan tilordnes, men avanserte styringsfunksjoner (PIM, access reviews) er ikke tilgjengelige.
 
 ---
