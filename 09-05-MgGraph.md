@@ -23,7 +23,7 @@
 # Install-Module Microsoft.Graph -Scope CurrentUser
 
 # Koble til med minste nødvendige delegert tilgang for øvelsene:
-Connect-MgGraph -Scopes `
+Connect-MgGraph -TenantID "<SKRIV INN DIN TENANTID>" -Scopes `
   "User.ReadWrite.All","Group.ReadWrite.All","Directory.ReadWrite.All","RoleManagement.ReadWrite.Directory"
 
 # Bekreft tilkobling og profil
@@ -52,7 +52,7 @@ Get-MgGroup -Filter "securityEnabled eq true" -All | Select DisplayName, Id
 
 ```powershell
 # Standardvariabler (kap. 2)
-$upn = "ola.nordmann@<DIN TENANT>.onmicrosoft.com" # MERK! navnet etter @ må matche med din Tenant!
+$upn = "ola.nordmann@<SKRIV INN DIN TENANT>.onmicrosoft.com" # MERK! navnet etter @ må matche med din Tenant!
 $pwd = @{ Password = 'P@ssw0rd123!' ; ForceChangePasswordNextSignIn = $true }
 
 # Opprett bruker
@@ -93,57 +93,24 @@ New-MgGroup @grpParams
 $user = Get-MgUser -UserId $upn
 $group = Get-MgGroup -Filter "displayName eq 'SG-App-Helpdesk'"
 
-# Legg til medlem ved referanse (ByRef)
-New-MgGroupMemberByRef -GroupId $group.Id -OdataId "/users/$($user.Id)"
+# Legg til medlem ved referanse
+New-MgGroupMember -GroupId $group.id -DirectoryObjectId $user.id
 ```
-
-* `New-MgGroupMemberByRef` legger til medlem via objektreferanse (`$ref`). ([Microsoft Learn][4])
-
-### (Valgfritt) Legg til **eier** (kan administrere gruppen)
-
-```powershell
-New-MgGroupOwnerByRef -GroupId $group.Id -OdataId "/users/$($user.Id)"
-```
-
-* Eiere kan endre gruppeinnstillinger/medlemskap. ([Microsoft Learn][5])
 
 ---
-
-## 5) (Valgfritt) Tilordne innebygd **Entra-rolle** til en bruker
-
-> Krever at du er Global admin eller tilsvarende, og at rollen er **aktivert** i leietakeren.
-
-```powershell
-# Finn (eller aktiver) ønsket rolle, f.eks. "User Administrator"
-$role = Get-MgDirectoryRole -All | Where-Object DisplayName -eq "User Administrator"
-if (-not $role) {
-  # Finn rollemalen (template), og aktiver rollen i tenant
-  $tpl = Get-MgDirectoryRoleTemplate -All | Where-Object DisplayName -eq "User Administrator"
-  $role = New-MgDirectoryRole -RoleTemplateId $tpl.Id
-}
-
-# Tildel rolle til bruker
-New-MgDirectoryRoleMemberByRef -DirectoryRoleId $role.Id -OdataId "/users/$($user.Id)"
-
-# Verifiser
-Get-MgDirectoryRoleMember -DirectoryRoleId $role.Id | Select-Object Id
-```
-
-* **Aktivere rolle**: `New-MgDirectoryRole` med **RoleTemplateId** (en gang per tenant per rolle).
-* **Tildele rolle**: `New-MgDirectoryRoleMemberByRef`. ([Microsoft Learn][6])
 
 > ℹ️ **Entra ID Free** støtter tildeling av innebygde roller, men ikke avanserte funksjoner som PIM/Access Reviews/Dynamiske grupper.
 
 ---
 
-## 6) Masseopprettelse fra CSV (variabler, løkker, try/catch)
+## 6) Masseopprettelse fra CSV (variabler, løkker, try/catch) - MERK! her må en erstatte med eget Tenant navn.
 
 **CSV: `users.csv`**
 
 ```csv
 DisplayName,UPN,MailNickname,Password
-Anna Hansen,anna.hansen@contoso.onmicrosoft.com,anna.hansen,P@ssw0rd1!
-Bjørn Olsen,bjorn.olsen@contoso.onmicrosoft.com,bjorn.olsen,P@ssw0rd1!
+Anna Hansen,anna.hansen@<SKRIV INN DIN TENANT>.onmicrosoft.com,anna.hansen,P@ssw0rd1!
+Bjørn Olsen,bjorn.olsen@<SKRIV INN DIN TENANT>.onmicrosoft.com,bjorn.olsen,P@ssw0rd1!
 ```
 
 **Script:**
@@ -164,7 +131,7 @@ Import-Csv .\users.csv | ForEach-Object {
                     -ErrorAction Stop
 
     # Legg i gruppe
-    New-MgGroupMemberByRef -GroupId $group.Id -OdataId "/users/$($u.Id)" -ErrorAction Stop
+    New-MgGroupMember -GroupId $group.Id -DirectoryObjectId $u.Id -ErrorAction Stop
 
     Write-Host "Opprettet og lagt til: $($_.DisplayName)" -ForegroundColor Green
   }
@@ -226,7 +193,7 @@ function Add-UserToGroup {
 
   $u = Get-MgUser -UserId $UserIdOrUpn
   $g = Get-MgGroup -Filter "displayName eq '$GroupName'"
-  New-MgGroupMemberByRef -GroupId $g.Id -OdataId "/users/$($u.Id)"
+  New-MgGroupMemberByRef -GroupId $g.Id -DirectoryObjectId $u.Id
 }
 ```
 
