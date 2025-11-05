@@ -32,12 +32,13 @@ Chocolatey er en pakkehåndterer for Windows – som gjør det enkelt å install
    - Høyreklikk og velg **Kjør som administrator**
 
 2. Kjør følgende kommando (kopier og lim inn):
-   ```powershell
+```powershell
    Set-ExecutionPolicy Bypass -Scope Process -Force; `
    [System.Net.ServicePointManager]::SecurityProtocol = `
    [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 ```
+
 
 3. Når installasjonen er ferdig, lukk og åpne PowerShell på nytt.
 
@@ -47,7 +48,7 @@ Chocolatey er en pakkehåndterer for Windows – som gjør det enkelt å install
    choco --version
    ```
 
-   Hvis du ser et versjonsnummer, er alt klart!
+5. Hvis du ser et versjonsnummer, er alt klart!
 
 ---
 
