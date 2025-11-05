@@ -52,7 +52,7 @@ Get-MgGroup -Filter "securityEnabled eq true" -All | Select DisplayName, Id
 
 ```powershell
 # Standardvariabler (kap. 2)
-$upn = "ola.nordmann@contoso.onmicrosoft.com"
+$upn = "ola.nordmann@<DIN TENANT>.onmicrosoft.com" # MERK! navnet etter @ må matche med din Tenant!
 $pwd = @{ Password = 'P@ssw0rd123!' ; ForceChangePasswordNextSignIn = $true }
 
 # Opprett bruker
