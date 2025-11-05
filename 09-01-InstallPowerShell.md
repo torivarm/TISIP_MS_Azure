@@ -490,7 +490,7 @@ Prøv å skrive:
 ```powershell
 Get-
 ```
-
+![alt text](img/get-.png)
 … og se hvordan VS Code foreslår kommandoer du kan bruke.
 
 ---
