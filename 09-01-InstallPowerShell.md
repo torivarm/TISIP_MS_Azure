@@ -247,7 +247,7 @@ Denne utvidelsen gir deg:
 
 ---
 
-## 🍎 Installasjon på macOS med Homebrew
+## Installasjon på macOS med Homebrew
 
 ### 1. Kontroller at Homebrew er installert
 
@@ -284,7 +284,7 @@ Du kan åpne VS Code på flere måter:
   ```bash
   code
   ```
-
+[Brew - VS Code](https://formulae.brew.sh/cask/visual-studio-code)
 Hvis `code`-kommandoen ikke fungerer umiddelbart, åpne VS Code, trykk **Cmd + Shift + P**, og skriv:
 
 ```
@@ -348,8 +348,6 @@ Dette gir deg et fullt PowerShell-miljø direkte i VS Code!
 | macOS          | Homebrew       | `brew install --cask visual-studio-code` |
 
 ---
-
-### 🎯 Neste steg
 
 Nå som du har både **PowerShell 7** og **VS Code** installert, er du klar til å:
 
