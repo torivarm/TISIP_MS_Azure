@@ -205,29 +205,19 @@ function Add-UserToGroup {
 ## 9) Eierskap og opprydding
 
 ```powershell
-# Legg til eier
-New-MgGroupOwnerByRef -GroupId $group.Id -OdataId "/users/$($user.Id)"
-
 # Liste medlemmer
 Get-MgGroupMember -GroupId $group.Id -All | Select DisplayName, Id
-
-# Fjern medlem
-# Remove-MgGroupMemberByRef -GroupId $group.Id -DirectoryObjectId $user.Id -Confirm:$false
 
 # Slett gruppe
 # Remove-MgGroup -GroupId $group.Id -Confirm:$false
 ```
-
-* **Owner** gir delegert administrasjon av gruppen; rydd opp etter lab. ([Microsoft Learn][5])
 
 ---
 
 ## 10) Mini-oppgaver (for studentene)
 
 1. Lag 3 brukere fra CSV og plasser dem i **SG-App-Helpdesk**.
-2. Oppdater **Department** for alle brukere i gruppen til `Support` (bruk **Get-MgGroupMember** + **ForEach-Object**).
-3. Legg en av brukerne som **Owner** på gruppen.
-4. (Valgfritt, for admin) Aktiver **User Administrator**-rollen og tildel den til én øvingsbruker. Verifiser med **Get-MgDirectoryRoleMember**.
+2. Oppdater **Department** for alle brukere i gruppen til `Support` (bruk **Get-MgGroupMember** + **ForEach-Object**)
 
 ---
 
@@ -238,11 +228,6 @@ Get-MgGroupMember -GroupId $group.Id -All | Select DisplayName, Id
 | Koble til Graph           | `Connect-MgGraph`                                     | Delegert minste nødvendige scopes for øvelser. ([Microsoft Learn][1]) |
 | Opprette bruker           | `New-MgUser`                                          | Opprett ny konto m/PasswordProfile. ([Microsoft Learn][2])            |
 | Opprette sikkerhetsgruppe | `New-MgGroup`                                         | Sikkerhetsgruppe for tilgangsstyring. ([Microsoft Learn][3])          |
-| Legge til medlem i gruppe | `New-MgGroupMemberByRef`                              | Legg til medlem via `$ref`. ([Microsoft Learn][4])                    |
-| Legge til eier            | `New-MgGroupOwnerByRef`                               | Deleger gruppestyring til eiere. ([Microsoft Learn][5])               |
-| Aktivere innebygd rolle   | `New-MgDirectoryRole -RoleTemplateId`                 | Gjør rolle tilgjengelig i tenant. ([Microsoft Learn][7])              |
-| Tildele rollemedlem       | `New-MgDirectoryRoleMemberByRef`                      | Tildel bruker til rolle. ([Microsoft Learn][8])                       |
-| Hente rolletype/rolle     | `Get-MgDirectoryRoleTemplate` / `Get-MgDirectoryRole` | Finn rolle-templates/aktiverte roller. ([Microsoft Learn][9])         |
 
 ---
 
