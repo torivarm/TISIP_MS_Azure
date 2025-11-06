@@ -202,8 +202,6 @@ if (-not (Get-MgContext)) {
   Connect-MgGraph -Scopes "User.ReadWrite.All","Group.ReadWrite.All","Directory.ReadWrite.All" | Out-Null
 }
 
-. .\Lab-Graph-Tools.ps1
-
 # Logging
 $logDir = Join-Path (Get-Location) "logs"
 if (-not (Test-Path $logDir)) { New-Item -Path $logDir -ItemType Directory | Out-Null }
