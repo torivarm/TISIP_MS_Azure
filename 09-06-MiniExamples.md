@@ -4,6 +4,7 @@ Denne veiviseren inneholder:
 1) **Interaktivt skript** (én bruker om gangen)  
 2) **Bulk-skript fra CSV** (mange brukere) med **enkel logging**  
 3) **Eksempel-CSV**  
+4) **Beste praksis: Generering og håndtering av passord**
 
 > Forutsetninger:
 > - PowerShell 7 (`pwsh`)
@@ -375,7 +376,7 @@ Write-Host "Tilfeldig passord: $passord"
 
 ---
 
-### 3️⃣ Generere passord basert på en GUID (enklere, men sterkt nok for lab)
+### 3️Generere passord basert på en GUID (enklere, men sterkt nok for lab)
 
 ```powershell
 $passord = [guid]::NewGuid().ToString('N').Substring(0,12)
@@ -423,14 +424,14 @@ Write-Host "Nytt passord: $passord"
 
 ---
 
-### 📦 Tips for videre arbeid
+### Tips for videre arbeid
 
 * Kombiner passordgeneratoren med `ForceChangePasswordNextSignIn = $true` når brukeren opprettes.
 * Aldri skriv ut passord til konsollen i produksjonsskript – lagre heller i en **sikker passordfil** eller bruk **Azure Key Vault**.
 * Om dere ønsker å utforske sikker lagring senere: se `Get-Credential`, `Export-Clixml` og `Import-Clixml` for kryptert lagring av påloggingsinfo.
 
 ---
-## 5) Vanlige feil & raske fiks
+## Vanlige feil & raske fiks
 
 * **Mangler rettigheter/scopes:**
   Kjør `Connect-MgGraph -Scopes "User.ReadWrite.All","Group.ReadWrite.All","Directory.ReadWrite.All"` på nytt.
