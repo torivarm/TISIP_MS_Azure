@@ -286,7 +286,151 @@ Cathrine Berg,cathrine.berg@contoso.onmicrosoft.com,cathrine.berg,P@ssw0rd1!
 
 ---
 
-## Vanlige feil & raske fiks
+## 🛡️ 4) Beste praksis: Generering og håndtering av passord
+
+Når du oppretter brukere i et faktisk miljø, skal du **aldri bruke faste eller gjenbrukte passord**, og du bør aldri sende passord i klartekst via e-post, CSV eller chat.
+Under er noen retningslinjer som brukes i profesjonell praksis for å beskytte brukerkontoer.
+
+### 🔐 Generering av sikre passord
+
+* **Bruk tilfeldige, sterke passord** som minimum inneholder:
+
+  * minst **12–16 tegn**
+  * **store og små bokstaver**
+  * **tall**
+  * **spesialtegn**
+* **Ikke bruk mønstre** som `P@ssw0rd123` eller firmanavn + årstall.
+* Generer passord automatisk med PowerShell (f.eks. `New-Guid`, `System.Web.Security.Membership::GeneratePassword()` eller `Get-Random`-kombinasjoner).
+* Hvis du bruker et skript som lager mange brukere, **logg aldri passordene i klartekst**.
+* Bruk midlertidige passord og aktiver flagget:
+
+  ```powershell
+  ForceChangePasswordNextSignIn = $true
+  ```
+
+  slik at brukeren må sette sitt eget passord første gang de logger inn.
+
+---
+
+### 📬 Hvordan nye brukere får tilgang til kontoen sin
+
+Når nye kontoer opprettes i Entra ID (tidligere Azure AD), finnes det flere trygge måter å formidle påloggingsinformasjon på:
+
+1. **Automatisk e-post fra systemet**
+   I produksjon bruker mange virksomheter automatiserte løsninger (f.eks. HR-system eller ITSM) som sender en e-post til brukerens personlige adresse med instruksjoner og lenke til Microsoft-pålogging.
+
+2. **Sikker deling via administrert kanal**
+   IT-avdelingen kan dele brukernavn og midlertidig passord via:
+
+   * personlig møte eller telefon (verifisert identitet)
+   * SMS til kjent mobilnummer
+   * sikker filutveksling (OneDrive, SharePoint, eller verktøy som Cryptshare)
+
+3. **Selvbetjent passordendring (SSPR)**
+   Hvis **Self-Service Password Reset** (SSPR) er aktivert, kan brukeren velge *"Glemt passord?"* på innloggingssiden og sette sitt eget uten at IT må sende et midlertidig.
+
+4. **Flerfaktorautentisering (MFA)**
+   Sørg for at alle nye brukere aktiverer MFA (for eksempel Microsoft Authenticator) ved første innlogging for å hindre misbruk av midlertidige passord.
+
+---
+
+## 🔑 Eksempler på PowerShell-kommandoer for å generere sikre tilfeldige passord
+
+Det finnes mange måter å generere sterke passord på i PowerShell.  
+Her er noen enkle og trygge eksempler du kan teste direkte i terminalen:
+
+### 1️⃣ Bruke innebygd .NET-funksjon
+Denne metoden bruker en funksjon som allerede finnes i .NET-rammeverket og lager passord med blanding av bokstaver, tall og spesialtegn.
+
+```powershell
+Add-Type -AssemblyName System.Web
+$passord = [System.Web.Security.Membership]::GeneratePassword(14, 3)
+Write-Host "Tilfeldig passord: $passord"
+````
+
+🟢 Forklaring:
+
+* Første parameter = totalt antall tegn
+* Andre parameter = hvor mange spesialtegn som skal brukes
+* Eksempelutdata: `aF7!sJk$eQ9xRt`
+
+---
+
+### 2️⃣ Bruke `Get-Random` for å trekke tegn fra et tegnsett
+
+Her bygger du ditt eget tegnsett og trekker ut tilfeldige tegn.
+
+```powershell
+$tegnsett = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+'
+$passord = -join ((1..16) | ForEach-Object { $tegnsett[(Get-Random -Maximum $tegnsett.Length)] })
+Write-Host "Tilfeldig passord: $passord"
+```
+
+🟢 Forklaring:
+
+* `1..16` = antall tegn i passordet
+* `Get-Random` trekker tilfeldig tegn fra tegnsettet
+* `-join` setter sammen alle tegnene til én streng
+* Eksempelutdata: `Gv9#kL1x!Fp3@wZq`
+
+---
+
+### 3️⃣ Generere passord basert på en GUID (enklere, men sterkt nok for lab)
+
+```powershell
+$passord = [guid]::NewGuid().ToString('N').Substring(0,12)
+Write-Host "Tilfeldig passord: $passord"
+```
+
+🟢 Forklaring:
+
+* En GUID (globally unique identifier) er en lang tilfeldig streng.
+* Her brukes de første 12 tegnene.
+* Eksempelutdata: `a1b2c3d4e5f6`
+
+> 💡 Passer bra til **testmiljøer og lab**, men bruk mer kompleks metode i **produksjon**.
+
+---
+
+### 4️⃣ Bonus – lage en liten funksjon for gjenbruk
+
+Hvis du vil gjenbruke genereringen i flere skript, kan du lage en enkel funksjon:
+
+```powershell
+function New-RandomPassword {
+    param(
+        [int]$Length = 14,
+        [int]$SpecialChars = 3
+    )
+    Add-Type -AssemblyName System.Web
+    return [System.Web.Security.Membership]::GeneratePassword($Length, $SpecialChars)
+}
+
+# Bruk funksjonen:
+$passord = New-RandomPassword -Length 16 -SpecialChars 4
+Write-Host "Nytt passord: $passord"
+```
+
+---
+
+### 🔐 Anbefalinger
+
+| Miljø           | Passordlengde | Spesialtegn | Krav til styrke                             |
+| --------------- | ------------- | ----------- | ------------------------------------------- |
+| **Lab/test**    | 10–12         | 1–2         | Tilstrekkelig for øving                     |
+| **Intern bruk** | 14–16         | 2–3         | Bør inneholde store/små bokstaver og tall   |
+| **Produksjon**  | 16+           | 3–5         | Generer automatisk og aldri del i klartekst |
+
+---
+
+### 📦 Tips for videre arbeid
+
+* Kombiner passordgeneratoren med `ForceChangePasswordNextSignIn = $true` når brukeren opprettes.
+* Aldri skriv ut passord til konsollen i produksjonsskript – lagre heller i en **sikker passordfil** eller bruk **Azure Key Vault**.
+* Om dere ønsker å utforske sikker lagring senere: se `Get-Credential`, `Export-Clixml` og `Import-Clixml` for kryptert lagring av påloggingsinfo.
+
+---
+## 5) Vanlige feil & raske fiks
 
 * **Mangler rettigheter/scopes:**
   Kjør `Connect-MgGraph -Scopes "User.ReadWrite.All","Group.ReadWrite.All","Directory.ReadWrite.All"` på nytt.
@@ -299,11 +443,11 @@ Cathrine Berg,cathrine.berg@contoso.onmicrosoft.com,cathrine.berg,P@ssw0rd1!
 
 ---
 
-## Hva lærte vi? (kobling til grunnkurset)
+## 💡 Hva lærte vi?
 
-* **Variabler og parametre:** Styrer navn og input inn i cmdletene.
-* **Try/Catch:** Tydelige feilmeldinger og robust bulk-kjøring.
-* **Funksjoner:** Gjenbrukbar logikk for bruker/medlemskap.
-* **Pipelining/fil:** `Import-Csv` → løkke → Graph-kommandoer → logg til fil.
-
----
+* **Variabler og parametre:** brukes til å styre skriptets oppførsel
+* **Funksjoner:** gjør koden gjenbrukbar
+* **Try/Catch:** gir trygg feilbehandling
+* **Import-Csv:** lar deg masseopprette brukere effektivt
+* **New-MgGroupMember:** brukes for å koble brukere til grupper
+* **Sikkerhet:** alltid unike, midlertidige passord og trygg formidling til brukere
