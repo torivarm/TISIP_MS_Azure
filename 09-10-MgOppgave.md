@@ -118,8 +118,10 @@ function Add-UserToGroup {
 **Test lokalt i sesjonen:**
 
 ```powershell
-. .\Lab-Graph-Tools.ps1  # dot-source
+.\Lab-Graph-Tools.ps1  # dot-source
+````
 
+```powershell
 $dn  = "ab Ola Nordmann"
 $upn = "ab.ola.nordmann@<tenant>.onmicrosoft.com"
 $mn  = "ab.ola.nordmann"

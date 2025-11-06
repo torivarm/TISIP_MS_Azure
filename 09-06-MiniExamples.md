@@ -340,7 +340,7 @@ Når nye kontoer opprettes i Entra ID (tidligere Azure AD), finnes det flere try
 Det finnes mange måter å generere sterke passord på i PowerShell.  
 Her er noen enkle og trygge eksempler du kan teste direkte i terminalen:
 
-### 1️⃣ Bruke innebygd .NET-funksjon
+### 1️⃣ Bruke innebygd .NET-funksjon - KUN WINDOWS!
 Denne metoden bruker en funksjon som allerede finnes i .NET-rammeverket og lager passord med blanding av bokstaver, tall og spesialtegn.
 
 ```powershell
