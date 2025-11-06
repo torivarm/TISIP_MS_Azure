@@ -248,9 +248,10 @@ Write-Host "Ferdig. Logg: $log" -ForegroundColor Cyan
 Verifiser:
 
 ```powershell
-(Get-MgGroup -Filter "displayName eq 'SG-ab-Helpdesk'").Id |
-  ForEach-Object { Get-MgGroupMember -GroupId $_ } |
-  Select DisplayName, Id
+$groupId = (Get-MgGroup -Filter "displayName eq 'SG-ab-Helpdesk'").Id
+Get-MgGroupMember -GroupId $groupId |
+ForEach-Object { Get-MgUser -UserId $_.Id } |
+Select DisplayName, UserPrincipalName
 ```
 
 ---
