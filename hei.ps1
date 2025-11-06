@@ -1,1 +1,0 @@
-Write-Host "Hei, PowerShell-verden!"
