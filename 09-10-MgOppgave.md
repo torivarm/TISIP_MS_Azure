@@ -248,8 +248,9 @@ Write-Host "Ferdig. Logg: $log" -ForegroundColor Cyan
 Verifiser:
 
 ```powershell
-$groupId = (Get-MgGroup -Filter "displayName eq 'SG-ab-Helpdesk'").Id
-Get-MgGroupMember -GroupId $groupId |
+$group = Get-MgGroup -Filter "displayName eq 'SG-ab-Helpdesk'"
+Write-Host "`nViser medlemer for gruppen:" $group.DisplayName -ForegroundColor Green
+Get-MgGroupMember -GroupId $group.id |
 ForEach-Object { Get-MgUser -UserId $_.Id } |
 Select DisplayName, UserPrincipalName
 ```
@@ -272,8 +273,10 @@ if ($tpl -and -not (Get-MgDirectoryRole | Where-Object DisplayName -eq "User Adm
 
 # Tildel rollen til én av lab-brukerne
 $role = Get-MgDirectoryRole | Where-Object DisplayName -eq "User Administrator"
-$u    = Get-MgUser -UserId "ab.anna.hansen@<tenant>.onmicrosoft.com"
-New-MgDirectoryRoleMemberByRef -DirectoryRoleId $role.Id -OdataId "/users/$($u.Id)"
+$u    = Get-MgUser -UserId "ab.anna.hansen@digsec.onmicrosoft.com"
+New-MgDirectoryRoleMemberByRef `
+  -DirectoryRoleId $role.Id `
+  -OdataId "https://graph.microsoft.com/v1.0/directoryObjects/$($u.Id)"
 ```
 
 **Sjekk:**
