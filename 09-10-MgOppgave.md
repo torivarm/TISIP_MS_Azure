@@ -154,8 +154,6 @@ if (-not (Get-MgContext)) {
   Connect-MgGraph -Scopes "User.ReadWrite.All","Group.ReadWrite.All","Directory.ReadWrite.All" | Out-Null
 }
 
-. .\Lab-Graph-Tools.ps1
-
 $dn  = Read-Host "DisplayName"
 $upn = Read-Host "UserPrincipalName"
 $mn  = Read-Host "MailNickname"

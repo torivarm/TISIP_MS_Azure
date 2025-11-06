@@ -1,0 +1,4 @@
+[10:11:03] Finnes: ab.anna.hansen@digsec.onmicrosoft.com – hopper opprettelse
+[10:11:04] FEIL: ab.anna.hansen@digsec.onmicrosoft.com – Medlemskap feilet for ab.anna.hansen@digsec.onmicrosoft.com : [Request_BadRequest] : One or more added object references already exist for the following modified properties: 'members'.
+[10:11:04] Finnes: ab.bjorn.olsen@digsec.onmicrosoft.com – hopper opprettelse
+[10:11:04] FEIL: ab.bjorn.olsen@digsec.onmicrosoft.com – Medlemskap feilet for ab.bjorn.olsen@digsec.onmicrosoft.com : [Request_BadRequest] : One or more added object references already exist for the following modified properties: 'members'.
