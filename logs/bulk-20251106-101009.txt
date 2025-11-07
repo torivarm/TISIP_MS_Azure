@@ -1,6 +1,0 @@
-[10:10:10] Opprettet: ab.anna.hansen@digsec.onmicrosoft.com
-[10:10:10] FEIL: ab.anna.hansen@digsec.onmicrosoft.com – The term 'Add-UserToGroup' is not recognized as a name of a cmdlet, function, script file, or executable program.
-Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
-[10:10:10] Opprettet: ab.bjorn.olsen@digsec.onmicrosoft.com
-[10:10:10] FEIL: ab.bjorn.olsen@digsec.onmicrosoft.com – The term 'Add-UserToGroup' is not recognized as a name of a cmdlet, function, script file, or executable program.
-Check the spelling of the name, or if a path was included, verify that the path is correct and try again.

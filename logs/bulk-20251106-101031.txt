@@ -1,4 +1,0 @@
-[10:10:31] Finnes: ab.anna.hansen@digsec.onmicrosoft.com – hopper opprettelse
-[10:10:31] OK: La til ab Anna Hansen i SG-ab-Helpdesk
-[10:10:31] Finnes: ab.bjorn.olsen@digsec.onmicrosoft.com – hopper opprettelse
-[10:10:32] OK: La til ab Bjorn Olsen i SG-ab-Helpdesk
