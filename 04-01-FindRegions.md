@@ -40,6 +40,8 @@ Denne guiden hjelper deg med å finne ut hvilke regioner som faktisk fungerer fo
    1. ![alt text](img/resourceGroups.png)
    2. ![alt text](img/deleteRG.png)
    3. ![alt text](img/deleteRG02.png)
+8. Når den er slettet, vil en se en bekreftelse på dette oppe i toppen under bjellen:
+   1. ![alt text](img/deleted.png)
 
 **Eksempel på typiske tillatte regioner:**
 - North Europe (Dublin, Irland)
