@@ -14,9 +14,10 @@
 # Password requirements: 12+ characters, uppercase, lowercase, number, special char.
 # Note: Avoid '!' in passwords – Bash treats it as a history expansion character.
 # =============================================================================
-LOCATION="<YOUR-LOCATION>"         # <-- Change this, e.g. "switzerlandnorth"
-ADMIN_PASSWORD="<YOUR-PASSWORD>"   # <-- Change this, e.g. "MyS3cure_Pass99"
-VM_SIZE="<YOUR-VM-SIZE>"           # <-- Change this, e.g. "Standard_B2ats_v2"
+LOCATION="switzerlandnorth"            # <-- Change this, e.g. "switzerlandnorth"
+ADMIN_PASSWORD="MyS3cure_Pass99"       # <-- Change this, e.g. "MyS3cure_Pass99"
+VM_SIZE="Standard_B2ats_v2"            # <-- Change this, e.g. "Standard_B2ats_v2"
+ADMIN_USERNAME="azdemouser"            # <-- You can change this if you want, but keep it consistent across VMs.
 
 # Validate that required variables have been set
 if [[ "$LOCATION" == "<YOUR-LOCATION>" || -z "$LOCATION" ]]; then
@@ -40,7 +41,6 @@ fi
 # Set variables
 RESOURCE_GROUP="rg-demo-${LOCATION}-001"
 VM_IMAGE="Ubuntu2204"
-ADMIN_USERNAME="melling"
 
 # Check if resource group exists, create if it doesn't
 echo "Ensuring Resource Group '$RESOURCE_GROUP' exists in '$LOCATION'..."

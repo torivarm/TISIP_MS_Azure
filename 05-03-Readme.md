@@ -85,28 +85,16 @@ Eksempel på gyldig passord: `MyS3cure_Pass99`
 
 ---
 
-## Steg 5 – Last opp og kjør scriptet i Cloud Shell
+## Steg 5 – Kopier og kjør scriptet i Cloud Shell
 
-### Alternativ A – Last opp filen
+Azure Cloud Shell er en nettleserbasert bash-terminal som er innebygd i Azure Portal. Du trenger ikke installere noe – Azure CLI er allerede tilgjengelig der.
 
-1. Klikk på **opplastingsikonet** (pil opp) i Cloud Shell-verktøylinjen
-2. Velg `create-vms.sh` fra din lokale maskin
-3. Filen lastes opp til hjemmekatalogen din (`~/`)
+1. Gå til [portal.azure.com](https://portal.azure.com) og logg inn
+2. Klikk på **Cloud Shell**-ikonet i toppmenyen (ser ut som `>_`)
+3. Velg **Bash** hvis du blir spurt om shell-type
+4. Første gang du åpner Cloud Shell blir du bedt om å opprette en lagringskonto – her kan du velge å starte Cloud Shell uten storage account, eller godta opprettelse av storage account. Førstnevnte går raskest.
 
-### Alternativ B – Opprett filen direkte i Cloud Shell
-
-```bash
-nano create-vms.sh
-```
-
-Lim inn innholdet, sett variablene dine, og lagre med `Ctrl+O` → Enter → `Ctrl+X`.
-
-### Kjør scriptet
-
-```bash
-chmod +x create-vms.sh
-./create-vms.sh
-```
+Cloud Shell åpnes som et panel nederst i nettleseren og er klar til bruk.
 
 Scriptet vil stoppe med en tydelig feilmelding hvis noen av de tre variablene ikke er satt.
 
