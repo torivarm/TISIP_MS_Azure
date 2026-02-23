@@ -36,8 +36,16 @@ LOCATION="norwayeast"
 
 ## Steg 3 – Kjør scriptet
 
-Når du har satt riktig region, kopier og kjør scriptet i Azure CLI Web
+## Steg 1 – Åpne Azure Cloud Shell
 
+Azure Cloud Shell er en nettleserbasert bash-terminal som er innebygd i Azure Portal. Du trenger ikke installere noe – Azure CLI er allerede tilgjengelig der.
+
+1. Gå til [portal.azure.com](https://portal.azure.com) og logg inn
+2. Klikk på **Cloud Shell**-ikonet i toppmenyen (ser ut som `>_`)
+3. Velg **Bash** hvis du blir spurt om shell-type
+4. Første gang du åpner Cloud Shell blir du bedt om å opprette en lagringskonto – her kan du velge å starte Cloud Shell uten storage account, eller godta opprettelse av storage account. Førstnevnte går raskest.
+
+Cloud Shell åpnes som et panel nederst i nettleseren og er klar til bruk.
 
 ---
 

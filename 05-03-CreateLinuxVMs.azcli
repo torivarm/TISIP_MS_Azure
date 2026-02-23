@@ -1,15 +1,22 @@
 #!/bin/bash
 
 # =============================================================================
-# IMPORTANT: Set the variables marked with <...> before running this script.
-#   LOCATION       – Your allowed Azure region (e.g. "norwayeast")
+# IMPORTANT: Set the three variables marked with <...> before running this script.
+#
+#   LOCATION       – Your allowed Azure region (e.g. "switzerlandnorth")
 #   ADMIN_PASSWORD – A secure password for the VM admin user
+#   VM_SIZE        – An available VM size in your region (e.g. "Standard_B2ats_v2")
 #
 # Run 'az account list-locations --output table' to find allowed regions.
+# Run the command below to find available VM sizes in your region:
+#   az vm list-skus --location switzerlandnorth --size Standard_B --output table
+#
 # Password requirements: 12+ characters, uppercase, lowercase, number, special char.
+# Note: Avoid '!' in passwords – Bash treats it as a history expansion character.
 # =============================================================================
-LOCATION="<MUST MATCH YOUR ALLOWED LOCATION FOR VMs>"         # <-- Change this, e.g. "switzerlandnorth"
-ADMIN_PASSWORD="MyS3cure_Pass99"   # <-- Change this, e.g. "MyS3cure_Pass99"
+LOCATION="<YOUR-LOCATION>"         # <-- Change this, e.g. "switzerlandnorth"
+ADMIN_PASSWORD="<YOUR-PASSWORD>"   # <-- Change this, e.g. "MyS3cure_Pass99"
+VM_SIZE="<YOUR-VM-SIZE>"           # <-- Change this, e.g. "Standard_B2ats_v2"
 
 # Validate that required variables have been set
 if [[ "$LOCATION" == "<YOUR-LOCATION>" || -z "$LOCATION" ]]; then
@@ -23,9 +30,15 @@ if [[ "$ADMIN_PASSWORD" == "<YOUR-PASSWORD>" || -z "$ADMIN_PASSWORD" ]]; then
     exit 1
 fi
 
+if [[ "$VM_SIZE" == "<YOUR-VM-SIZE>" || -z "$VM_SIZE" ]]; then
+    echo "ERROR: You must set the VM_SIZE variable before running this script."
+    echo "       Run the following to list available B-series sizes in your region:"
+    echo "       az vm list-skus --location $LOCATION --size Standard_B --output table"
+    exit 1
+fi
+
 # Set variables
 RESOURCE_GROUP="rg-demo-${LOCATION}-001"
-VM_SIZE="B1s"   # 1 vCPU, 1 GB RAM
 VM_IMAGE="Ubuntu2204"
 ADMIN_USERNAME="melling"
 
@@ -65,4 +78,4 @@ do
 done
 
 echo ""
-echo "VM creation process completed. Region: $LOCATION"
+echo "VM creation process completed. Region: $LOCATION | Size: $VM_SIZE"
