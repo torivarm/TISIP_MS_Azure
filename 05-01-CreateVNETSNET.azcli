@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# =============================================================================
+# IMPORTANT: Set your allowed Azure region before running this script.
+# See the student guide (README.md) for instructions on how to find your
+# allowed locations.
+# =============================================================================
+LOCATION="<YOUR-LOCATION>"   # <-- Change this value, e.g. "norwayeast"
+
+# Validate that LOCATION has been set
+if [[ "$LOCATION" == "<YOUR-LOCATION>" || -z "$LOCATION" ]]; then
+    echo "ERROR: You must set the LOCATION variable before running this script."
+    echo "       Open the script and replace <YOUR-LOCATION> with your allowed Azure region."
+    echo "       Run 'az account list-locations --output table' to list available regions."
+    exit 1
+fi
+
+# Set variables
+RESOURCE_GROUP="rg-demo-${LOCATION}-001"
+
+# Create Resource Group
+echo "Creating Resource Group '$RESOURCE_GROUP' in '$LOCATION'..."
+az group create --name "$RESOURCE_GROUP" --location "$LOCATION"
+
+# Create VNets and Subnets
+for i in {1..3}
+do
+    VNET_NAME="vnet-demo-${LOCATION}-00${i}"
+
+    echo "Creating VNet '$VNET_NAME'..."
+    az network vnet create \
+        --resource-group "$RESOURCE_GROUP" \
+        --name "$VNET_NAME" \
+        --address-prefix "10.${i}.0.0/16" \
+        --location "$LOCATION"
+
+    for j in {1..2}
+    do
+        SUBNET_NAME="snet-demo-${LOCATION}-$((i*100+j))"
+
+        echo "  Creating Subnet '$SUBNET_NAME'..."
+        az network vnet subnet create \
+            --resource-group "$RESOURCE_GROUP" \
+            --vnet-name "$VNET_NAME" \
+            --name "$SUBNET_NAME" \
+            --address-prefix "10.${i}.${j}.0/24"
+    done
+done
+
+echo ""
+echo "VNets and Subnets created successfully in region: $LOCATION"
