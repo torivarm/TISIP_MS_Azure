@@ -1,45 +1,68 @@
-
 #!/bin/bash
 
+# =============================================================================
+# IMPORTANT: Set the variables marked with <...> before running this script.
+#   LOCATION       – Your allowed Azure region (e.g. "norwayeast")
+#   ADMIN_PASSWORD – A secure password for the VM admin user
+#
+# Run 'az account list-locations --output table' to find allowed regions.
+# Password requirements: 12+ characters, uppercase, lowercase, number, special char.
+# =============================================================================
+LOCATION="<MUST MATCH YOUR ALLOWED LOCATION FOR VMs>"         # <-- Change this, e.g. "switzerlandnorth"
+ADMIN_PASSWORD="MyS3cure_Pass99"   # <-- Change this, e.g. "MyS3cure_Pass99"
+
+# Validate that required variables have been set
+if [[ "$LOCATION" == "<YOUR-LOCATION>" || -z "$LOCATION" ]]; then
+    echo "ERROR: You must set the LOCATION variable before running this script."
+    echo "       Run 'az account list-locations --output table' to list available regions."
+    exit 1
+fi
+
+if [[ "$ADMIN_PASSWORD" == "<YOUR-PASSWORD>" || -z "$ADMIN_PASSWORD" ]]; then
+    echo "ERROR: You must set the ADMIN_PASSWORD variable before running this script."
+    exit 1
+fi
+
 # Set variables
-RESOURCE_GROUP="rg-demo-westeurope-001"
-LOCATION="westeurope"
-VM_SIZE="Standard_B1ms"  # 1 vCPU, 2 GB RAM
+RESOURCE_GROUP="rg-demo-${LOCATION}-001"
+VM_SIZE="B1s"   # 1 vCPU, 1 GB RAM
 VM_IMAGE="Ubuntu2204"
 ADMIN_USERNAME="melling"
-ADMIN_PASSWORD="fds_eraascCS!"  # Replace with a secure password
 
 # Check if resource group exists, create if it doesn't
-az group show --name $RESOURCE_GROUP &> /dev/null || \
-az group create --name $RESOURCE_GROUP --location $LOCATION
+echo "Ensuring Resource Group '$RESOURCE_GROUP' exists in '$LOCATION'..."
+az group show --name "$RESOURCE_GROUP" &> /dev/null || \
+az group create --name "$RESOURCE_GROUP" --location "$LOCATION"
 
 # Create VMs
 for i in {1..3}
 do
-    VM_NAME="vm-demo-westeurope-00$i"
-    VNET_NAME="vnet-demo-westeurope-00$i"
-    SUBNET_NAME="snet-demo-westeurope-$((i*100+1))"
-    
-    echo "Creating VM $VM_NAME in $VNET_NAME/$SUBNET_NAME"
-    
+    VM_NAME="vm-demo-${LOCATION}-00${i}"
+    VNET_NAME="vnet-demo-${LOCATION}-00${i}"
+    SUBNET_NAME="snet-demo-${LOCATION}-$((i*100+1))"
+
+    echo "Creating VM '$VM_NAME' in $VNET_NAME/$SUBNET_NAME..."
+
     az vm create \
-        --resource-group $RESOURCE_GROUP \
-        --name $VM_NAME \
-        --image $VM_IMAGE \
-        --admin-username $ADMIN_USERNAME \
-        --admin-password $ADMIN_PASSWORD \
+        --resource-group "$RESOURCE_GROUP" \
+        --name "$VM_NAME" \
+        --image "$VM_IMAGE" \
+        --admin-username "$ADMIN_USERNAME" \
+        --admin-password "$ADMIN_PASSWORD" \
         --authentication-type password \
-        --vnet-name $VNET_NAME \
-        --subnet $SUBNET_NAME \
-        --public-ip-address "$VM_NAME-pip" \
+        --vnet-name "$VNET_NAME" \
+        --subnet "$SUBNET_NAME" \
+        --public-ip-address "${VM_NAME}-pip" \
         --nsg "" \
-        --size $VM_SIZE
+        --size "$VM_SIZE" \
+        --location "$LOCATION"
 
     if [ $? -eq 0 ]; then
-        echo "VM $VM_NAME created successfully"
+        echo "VM '$VM_NAME' created successfully."
     else
-        echo "Failed to create VM $VM_NAME"
+        echo "ERROR: Failed to create VM '$VM_NAME'."
     fi
 done
 
-echo "VM creation process completed"
+echo ""
+echo "VM creation process completed. Region: $LOCATION"

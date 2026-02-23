@@ -5,7 +5,7 @@
 # See the student guide (README.md) for instructions on how to find your
 # allowed locations.
 # =============================================================================
-LOCATION="<YOUR-LOCATION>"   # <-- Change this value, e.g. "norwayeast"
+LOCATION="<MUST MATCH YOUR ALLOWED LOCATION FOR VMs>"   # <-- Change this value, e.g. "switzerlandnorth"
 
 # Validate that LOCATION has been set
 if [[ "$LOCATION" == "<YOUR-LOCATION>" || -z "$LOCATION" ]]; then

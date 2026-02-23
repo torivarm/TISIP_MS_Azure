@@ -8,8 +8,8 @@
 # Run 'az account list-locations --output table' to find allowed regions.
 # Run 'curl -s ifconfig.me' to find your public IP.
 # =============================================================================
-LOCATION="<YOUR-LOCATION>"     # <-- Change this value, e.g. "norwayeast"
-ALLOWED_IP="<YOUR-IP-ADDRESS>" # <-- Change this value, e.g. "203.0.113.10"
+LOCATION="<MUST MATCH YOUR ALLOWED LOCATION FOR VMs>"   # <-- Change this value, e.g. "switzerlandnorth"
+ALLOWED_IP="x.x.x.x" # <-- Change this value, e.g. "203.0.113.10"
 
 # Validate that required variables have been set
 if [[ "$LOCATION" == "<YOUR-LOCATION>" || -z "$LOCATION" ]]; then
