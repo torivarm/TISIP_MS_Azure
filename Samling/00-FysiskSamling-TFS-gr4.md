@@ -24,7 +24,7 @@ Bruk tabellen nedenfor som utgangspunkt. Dere velger selv hvilke tjenester dere 
 
 | Tjeneste | Kort beskrivelse | Dokumentasjon |
 |---|---|---|
-| **Microsoft Entra ID** | Identitets- og tilgangsstyring. Gjør det enkelt å legge til og fjerne brukere, og styre hvem som har tilgang til hva. | [Les mer](https://learn.microsoft.com/nb-no/entra/identity/fundamentals/whatis) |
+| **Microsoft Entra ID** | Identitets- og tilgangsstyring. Gjør det enkelt å legge til og fjerne brukere, og styre hvem som har tilgang til hva. | [Les mer](https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra) |
 | **Microsoft 365 / SharePoint Online** | Dokumentsamarbeid, intranett og kommunikasjon via Teams. Erstatter USB-pinner og private e-postadresser. | [Les mer](https://learn.microsoft.com/nb-no/sharepoint/introduction) |
 | **Azure Files** | Fillagring som kan monteres som en nettverksdisk. Tilgjengelig fra alle enheter. | [Les mer](https://learn.microsoft.com/nb-no/azure/storage/files/storage-files-introduction) |
 | **Azure Blob Storage** | Lagring av filer, bilder og videoer fra arrangementer. Rimelig og skalerbart. | [Les mer](https://learn.microsoft.com/nb-no/azure/storage/blobs/storage-blobs-overview) |
