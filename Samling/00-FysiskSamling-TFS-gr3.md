@@ -2,7 +2,7 @@
 
 ## Bedriftsbeskrivelse
 
-Midt-Norsk Metallbearbeiding har 40 ansatte og produserer deler til offshoreindustrien. De har åtte produksjonsmaskiner som i dag ikke er koblet til noe system – ved feil oppdager de det først når produksjonen stopper. Daglig leder Tor vil ha bedre oversikt over maskinstatus, og ønsker å bli varslet automatisk dersom en maskin oppfører seg unormalt.
+Midt-Norsk Metallbearbeiding har 40 ansatte og produserer deler til offshoreindustrien. De har åtte produksjonsmaskiner som i dag ikke er koblet til noe system – ved feil oppdager de det først når produksjonen stopper. Daglig leder Dagfinn vil ha bedre oversikt over maskinstatus, og ønsker å bli varslet automatisk dersom en maskin oppfører seg unormalt.
 
 **Behov:** Innsamling av data fra maskinene løpende, lagring av dataen over tid for analyse, varsling når verdier er utenfor normale grenser, og en enkel oversikt (dashboard) som produksjonslederen kan følge med på.
 
