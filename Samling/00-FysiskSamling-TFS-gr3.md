@@ -1,18 +1,18 @@
-# Gruppe 2 – Case: Andersen & Partnere AS
+# Gruppe 3 – Case: Midt-Norsk Metallbearbeiding AS
 
 ## Bedriftsbeskrivelse
 
-Andersen & Partnere er et regnskapskonsulentfirma med 25 ansatte spredt over tre byer. Alle jobber delvis hjemmefra og trenger tilgang til felles dokumenter, klientdata og interne systemer. De har nylig opplevd et phishing-angrep der en ansatt utilsiktet ga fra seg innloggingsdetaljer, noe som satte klientdata i fare.
+Midt-Norsk Metallbearbeiding har 40 ansatte og produserer deler til offshoreindustrien. De har åtte produksjonsmaskiner som i dag ikke er koblet til noe system – ved feil oppdager de det først når produksjonen stopper. Daglig leder Tor vil ha bedre oversikt over maskinstatus, og ønsker å bli varslet automatisk dersom en maskin oppfører seg unormalt.
 
-**Behov:** Sikker og enkel innlogging for alle ansatte uavhengig av hvor de befinner seg, sentral lagring av dokumenter med tilgangsstyring (ikke alle skal se alt), og bedre kontroll over hvem som har tilgang til hva.
+**Behov:** Innsamling av data fra maskinene løpende, lagring av dataen over tid for analyse, varsling når verdier er utenfor normale grenser, og en enkel oversikt (dashboard) som produksjonslederen kan følge med på.
 
-**Begrensning:** Ansatte er ikke teknisk anlagte og må oppleve løsningen som enkel å bruke. GDPR stiller krav til hvordan klientdata lagres og behandles.
+**Begrensning:** Maskinene er gamle og kommuniserer via enkle protokoller. IT-budsjettet er ikke stort, og løsningen må være driftssikker – produksjon kan ikke stoppe på grunn av IT-problemer.
 
 ---
 
 ## Oppgave
 
-Design en Azure-løsning for Andersen & Partnere AS. Tegn opp arkitekturen som et enkelt diagram (på papir, whiteboard eller digitalt) og forklar hvilke tjenester dere har valgt og hvorfor. Dere skal presentere løsningen for resten av klassen.
+Design en Azure-løsning for Midt-Norsk Metallbearbeiding AS. Tegn opp arkitekturen som et enkelt diagram (på papir, whiteboard eller digitalt) og forklar hvilke tjenester dere har valgt og hvorfor. Dere skal presentere løsningen for resten av klassen.
 
 ---
 
@@ -22,13 +22,13 @@ Bruk tabellen nedenfor som utgangspunkt. Dere velger selv hvilke tjenester dere 
 
 | Tjeneste | Kort beskrivelse | Dokumentasjon |
 |---|---|---|
-| **Microsoft Entra ID** | Identitets- og tilgangsstyring for brukere og applikasjoner. Håndterer innlogging, roller og tilganger sentralt. | [Les mer](https://learn.microsoft.com/nb-no/entra/identity/fundamentals/whatis) |
-| **Azure Multi-Factor Authentication (MFA)** | Krever en ekstra bekreftelse (f.eks. app eller SMS) i tillegg til passord ved innlogging. | [Les mer](https://learn.microsoft.com/nb-no/entra/identity/authentication/concept-mfa-howitworks) |
-| **Azure Files** | Fillagring som kan monteres som en nettverksdisk. Erstatter tradisjonell filserver og er tilgjengelig fra alle enheter. | [Les mer](https://learn.microsoft.com/nb-no/azure/storage/files/storage-files-introduction) |
-| **Azure Key Vault** | Sikker lagring av passord, tilgangsnøkler og sertifikater. Hindrer at sensitiv informasjon eksponeres. | [Les mer](https://learn.microsoft.com/nb-no/azure/key-vault/general/overview) |
-| **Microsoft Defender for Cloud** | Kontinuerlig sikkerhetsvurdering av Azure-miljøet med varsler og anbefalinger ved trusler eller feilkonfigurasjoner. | [Les mer](https://learn.microsoft.com/nb-no/azure/defender-for-cloud/defender-for-cloud-introduction) |
-| **Azure Virtual Desktop** | Virtuelt skrivebord som kjører i skyen og er tilgjengelig fra alle enheter med nettleser. | [Les mer](https://learn.microsoft.com/nb-no/azure/virtual-desktop/overview) |
-| **Microsoft 365 / SharePoint Online** | Dokumentsamarbeid og kommunikasjon. Kan administreres via Entra ID for sentralisert tilgangsstyring. | [Les mer](https://learn.microsoft.com/nb-no/sharepoint/introduction) |
+| **Azure IoT Hub** | Tilkobling og administrasjon av IoT-enheter (sensorer, maskiner). Tar imot data fra enheter i sanntid. | [Les mer](https://learn.microsoft.com/nb-no/azure/iot-hub/iot-concepts-and-iot-hub) |
+| **Azure Event Hubs** | Strømming og innsamling av store mengder data i sanntid fra mange kilder samtidig. | [Les mer](https://learn.microsoft.com/nb-no/azure/event-hubs/event-hubs-about) |
+| **Azure Blob Storage** | Lagring av store mengder data, f.eks. historiske maskindata over tid. Rimelig og skalerbart. | [Les mer](https://learn.microsoft.com/nb-no/azure/storage/blobs/storage-blobs-overview) |
+| **Azure Cosmos DB** | Globalt distribuert NoSQL-database. Passer til løpende innsamling av sensordata med høy hastighet. | [Les mer](https://learn.microsoft.com/nb-no/azure/cosmos-db/introduction) |
+| **Azure Monitor** | Samler inn og analyserer logger og ytelsesdata. Kan vise maskinstatus i et dashboard. | [Les mer](https://learn.microsoft.com/nb-no/azure/azure-monitor/overview) |
+| **Azure Alerts** | Definerer regler for varsling – f.eks. send e-post eller SMS dersom en maskinverdi er utenfor normalen. | [Les mer](https://learn.microsoft.com/nb-no/azure/azure-monitor/alerts/alerts-overview) |
+| **Azure Logic Apps** | Automatisering av arbeidsflyter uten å skrive kode. F.eks. "når en alarm utløses, send varsel til leder". | [Les mer](https://learn.microsoft.com/nb-no/azure/logic-apps/logic-apps-overview) |
 
 ---
 
@@ -36,10 +36,10 @@ Bruk tabellen nedenfor som utgangspunkt. Dere velger selv hvilke tjenester dere 
 
 Dere oppfordres til å bruke en LLM (f.eks. Claude eller ChatGPT) aktivt underveis i oppgaven for å få rask innsikt i tjenestene. Her er noen eksempler på spørsmål dere kan stille:
 
-> *"Hva er Microsoft Entra ID, og hvordan hjelper det et firma med å styre hvem som har tilgang til hva?"*
+> *"Hva er IoT, og hva er Azure IoT Hub? Hvordan kobler man en gammel maskin til skyen?"*
 
-> *"Hva er phishing, og hvordan kan Azure MFA beskytte mot denne typen angrep?"*
+> *"Hva er forskjellen på Azure IoT Hub og Azure Event Hubs – når bruker man det ene fremfor det andre?"*
 
-> *"Hva er forskjellen på Azure Files og Azure Blob Storage når det gjelder dokumentlagring for ansatte?"*
+> *"Hva er Azure Logic Apps, og kan det brukes til å sende varsel på e-post når en maskin melder feil?"*
 
 Bruk LLM til å forstå og diskutere – men vær kritisk og sjekk gjerne svaret mot den offisielle dokumentasjonen (lenkene i tabellen over).
