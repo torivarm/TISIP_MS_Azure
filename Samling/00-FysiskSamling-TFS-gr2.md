@@ -22,7 +22,7 @@ Bruk tabellen nedenfor som utgangspunkt. Dere velger selv hvilke tjenester dere 
 
 | Tjeneste | Kort beskrivelse | Dokumentasjon |
 |---|---|---|
-| **Microsoft Entra ID** | Identitets- og tilgangsstyring for brukere og applikasjoner. Håndterer innlogging, roller og tilganger sentralt. | [Les mer](https://learn.microsoft.com/nb-no/entra/identity/fundamentals/whatis) |
+| **Microsoft Entra ID** | Identitets- og tilgangsstyring for brukere og applikasjoner. Håndterer innlogging, roller og tilganger sentralt. | [Les mer](https://learn.microsoft.com/en-us/entra/fundamentals/what-is-entra) |
 | **Azure Multi-Factor Authentication (MFA)** | Krever en ekstra bekreftelse (f.eks. app eller SMS) i tillegg til passord ved innlogging. | [Les mer](https://learn.microsoft.com/nb-no/entra/identity/authentication/concept-mfa-howitworks) |
 | **Azure Files** | Fillagring som kan monteres som en nettverksdisk. Erstatter tradisjonell filserver og er tilgjengelig fra alle enheter. | [Les mer](https://learn.microsoft.com/nb-no/azure/storage/files/storage-files-introduction) |
 | **Azure Key Vault** | Sikker lagring av passord, tilgangsnøkler og sertifikater. Hindrer at sensitiv informasjon eksponeres. | [Les mer](https://learn.microsoft.com/nb-no/azure/key-vault/general/overview) |
