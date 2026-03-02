@@ -1,0 +1,22 @@
+# MERK! Noen av kommandoene er oppdatert sammenlignet med hva som brukes i videoen.
+
+az group create --name rg-demo-container --location <HER MÅ DU SKRIVE INN EN AV DE STØTTEDE REGIONENE>
+az container create --resource-group rg-demo-container --name ci-demo-we-001 --image mcr.microsoft.com/azuredocs/aci-helloworld --dns-name-label timdemoaci001 --ports 80 --os-type Linux --cpu 1 --memory 1
+
+az acr build --image demo/custom-image-demo:v1 --registry critimdemo001 --file Dockerfile .
+
+### MERK! ###
+# Koden er oppdatert sammenlignet med hva som brukes i vidoen, og hva som kreves for siste versjon av API-et
+
+az container create \
+  --resource-group rg-demo-container \
+  --name ci-demo-we-002 \
+  --os-type linux \
+  --cpu 1 \
+  --memory 1 \
+  --image critimdemo001.azurecr.io/demo/custom-image-demo:v1 \
+  --registry-login-server critimdemo001.azurecr.io \
+  --registry-username critimdemo001 \
+  --registry-password xxxxxxHUSKåKOPIEREdittEGETpassordxxxxxx \
+  --dns-name-label ci-demo-we-002 \
+  --ports 80
