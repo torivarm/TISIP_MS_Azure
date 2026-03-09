@@ -1,0 +1,159 @@
+#!/bin/bash
+
+# =============================================================================
+# IMPORTANT: Set the variables below before running this script.
+#
+#   LOCATION   – Your allowed Azure region (e.g. "norwayeast")
+#   VM_NAME    – Name of the existing VM you want to back up
+#                (must already exist – kjør deploy-vm.sh først)
+#
+# Useful commands:
+#   Find allowed regions:
+#     az account list-locations --output table
+#
+#   List existing VMs in a resource group:
+#     az vm list --resource-group <RESOURCE_GROUP> --output table
+# =============================================================================
+LOCATION="<MUST MATCH YOUR ALLOWED LOCATION FOR VMs>"   # e.g. "norwayeast"
+VM_NAME="<NAME OF THE VM TO BACK UP>"                   # e.g. "vm-demo-norwayeast-001"
+
+# =============================================================================
+# Validation
+# =============================================================================
+if [[ "$LOCATION" == "<MUST MATCH YOUR ALLOWED LOCATION FOR VMs>" || -z "$LOCATION" ]]; then
+    echo "ERROR: Du må sette LOCATION-variabelen før du kjører scriptet."
+    echo "       Kjør 'az account list-locations --output table' for å finne tillatte regioner."
+    exit 1
+fi
+
+if [[ "$VM_NAME" == "<NAME OF THE VM TO BACK UP>" || -z "$VM_NAME" ]]; then
+    echo "ERROR: Du må sette VM_NAME-variabelen før du kjører scriptet."
+    echo "       Kjør 'az vm list --resource-group rg-vm-demo-${LOCATION}-001 --output table' for å se eksisterende VM-er."
+    exit 1
+fi
+
+# =============================================================================
+# Derived variables (ikke nødvendig å endre disse)
+# =============================================================================
+RESOURCE_GROUP="rg-vm-demo-${LOCATION}-001"
+VAULT_NAME="vault-backup-${LOCATION}-001"
+LOCATION_CLEAN="${LOCATION//[-_]/}"
+# Maks 13 tegn for location: "stbackup"(8) + location(13) + "001"(3) = 24 tegn totalt (Azure-krav)
+LOCATION_SHORT="${LOCATION_CLEAN:0:13}"
+STORAGE_ACCOUNT="stbackup${LOCATION_SHORT}001"
+REDUNDANCY="LocallyRedundant"
+BACKUP_MANAGEMENT_TYPE="AzureIaasVM"
+WORKLOAD_TYPE="VM"
+POLICY_NAME="EnhancedPolicy"
+
+# =============================================================================
+# Del 1: Registrer nødvendig namespace (Microsoft.RecoveryServices)
+# =============================================================================
+echo "Sjekker registreringsstatus for 'Microsoft.RecoveryServices'..."
+REGISTRATION_STATE=$(az provider show --namespace Microsoft.RecoveryServices --query "registrationState" -o tsv 2>/dev/null)
+
+if [[ "$REGISTRATION_STATE" != "Registered" ]]; then
+    echo "  Namespace er ikke registrert (status: $REGISTRATION_STATE). Registrerer nå..."
+    az provider register --namespace Microsoft.RecoveryServices
+
+    echo "  Venter på at registreringen skal fullføres (kan ta 1–2 minutter)..."
+    for i in {1..24}; do
+        REGISTRATION_STATE=$(az provider show --namespace Microsoft.RecoveryServices --query "registrationState" -o tsv 2>/dev/null)
+        if [[ "$REGISTRATION_STATE" == "Registered" ]]; then
+            echo "  Registrering fullført!"
+            break
+        fi
+        echo "  Status: $REGISTRATION_STATE – venter 5 sekunder... ($i/24)"
+        sleep 5
+    done
+
+    if [[ "$REGISTRATION_STATE" != "Registered" ]]; then
+        echo "ERROR: Registrering av 'Microsoft.RecoveryServices' ble ikke fullført innen ventetiden."
+        echo "       Sjekk status manuelt med: az provider show --namespace Microsoft.RecoveryServices --query registrationState"
+        exit 1
+    fi
+else
+    echo "  Microsoft.RecoveryServices er allerede registrert. Fortsetter..."
+fi
+
+# =============================================================================
+# Del 2: Opprett Recovery Services Vault
+# =============================================================================
+echo ""
+echo "Oppretter Recovery Services Vault '$VAULT_NAME' i '$LOCATION'..."
+az backup vault create \
+    --resource-group "$RESOURCE_GROUP" \
+    --name "$VAULT_NAME" \
+    --location "$LOCATION"
+
+# =============================================================================
+# Del 3: Konfigurer lagringsredundans for vaulten
+# =============================================================================
+echo ""
+echo "Setter lagringsredundans til '$REDUNDANCY'..."
+az backup vault backup-properties set \
+    --name "$VAULT_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --backup-storage-redundancy "$REDUNDANCY"
+
+# =============================================================================
+# Del 4: Aktiver backup for VM
+# =============================================================================
+echo ""
+echo "Aktiverer backup for VM '$VM_NAME' med policy '$POLICY_NAME'..."
+az backup protection enable-for-vm \
+    --resource-group "$RESOURCE_GROUP" \
+    --vault-name "$VAULT_NAME" \
+    --vm "$VM_NAME" \
+    --policy-name "$POLICY_NAME"
+
+# =============================================================================
+# Del 5: Start en manuell backup-jobb
+# =============================================================================
+echo ""
+echo "Starter manuell backup-jobb for '$VM_NAME'..."
+az backup protection backup-now \
+    --resource-group "$RESOURCE_GROUP" \
+    --vault-name "$VAULT_NAME" \
+    --container-name "$VM_NAME" \
+    --item-name "$VM_NAME" \
+    --backup-management-type "$BACKUP_MANAGEMENT_TYPE" \
+    --workload-type "$WORKLOAD_TYPE"
+
+# =============================================================================
+# Del 6: Vis status for backup-jobber
+# =============================================================================
+echo ""
+echo "Henter status for backup-jobber i vault '$VAULT_NAME'..."
+az backup job list \
+    --resource-group "$RESOURCE_GROUP" \
+    --vault-name "$VAULT_NAME" \
+    --output table
+
+# =============================================================================
+# Del 7: Opprett storage account for eventuell gjenoppretting
+# =============================================================================
+echo ""
+echo "Oppretter storage account '$STORAGE_ACCOUNT' for gjenoppretting..."
+az storage account create \
+    --name "$STORAGE_ACCOUNT" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --sku Standard_LRS \
+    --kind StorageV2
+
+echo ""
+echo "================================================================"
+echo "Backup-oppsett fullført!"
+echo "  Resource Group   : $RESOURCE_GROUP"
+echo "  Region           : $LOCATION"
+echo "  VM               : $VM_NAME"
+echo "  Vault            : $VAULT_NAME"
+echo "  Redundans        : $REDUNDANCY"
+echo "  Backup-policy    : $POLICY_NAME"
+echo "  Storage account  : $STORAGE_ACCOUNT"
+echo ""
+echo "  MERK: Backup-jobben kjører i bakgrunnen og kan ta flere minutter."
+echo "        Sjekk status med:"
+echo "        az backup job list --resource-group $RESOURCE_GROUP --vault-name $VAULT_NAME --output table"
+echo "================================================================"

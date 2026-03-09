@@ -1,0 +1,117 @@
+#!/bin/bash
+
+# =============================================================================
+# IMPORTANT: Set the variables below before running this script.
+#
+#   LOCATION   – Your allowed Azure region (e.g. "norwayeast")
+#   VM_SKU     – A VM size supported in your region and subscription
+#                (e.g. "Standard_B1s")
+#   USERNAME   – Admin username for the VM
+#   PASSWORD   – Admin password for the VM (min. 12 characters, must contain
+#                uppercase, lowercase, digit, and special character)
+#
+# Useful commands:
+#   Find allowed regions:
+#     az account list-locations --output table
+#
+#   Find VM sizes available in your region:
+#     az vm list-sizes --location <LOCATION> --output table
+#
+#   Verify that a specific VM size is available in your subscription:
+#     az vm list-skus --location <LOCATION> --size Standard_B --output table
+# =============================================================================
+LOCATION="<MUST MATCH YOUR ALLOWED LOCATION FOR VMs>"   # e.g. "norwayeast"
+VM_SKU="<YOUR-ALLOWED-VM-SKU>"                          # e.g. "Standard_B1s"
+USERNAME="<YOUR-ADMIN-USERNAME>"                        # e.g. "azundervisning"
+PASSWORD="<YOUR-ADMIN-PASSWORD>"                        # Min. 12 tegn
+
+# =============================================================================
+# Validation
+# =============================================================================
+if [[ "$LOCATION" == "<MUST MATCH YOUR ALLOWED LOCATION FOR VMs>" || -z "$LOCATION" ]]; then
+    echo "ERROR: Du må sette LOCATION-variabelen før du kjører scriptet."
+    echo "       Kjør 'az account list-locations --output table' for å finne tillatte regioner."
+    exit 1
+fi
+
+if [[ "$VM_SKU" == "<YOUR-ALLOWED-VM-SKU>" || -z "$VM_SKU" ]]; then
+    echo "ERROR: Du må sette VM_SKU-variabelen før du kjører scriptet."
+    echo "       Kjør 'az vm list-sizes --location $LOCATION --output table' for å se tilgjengelige størrelser."
+    exit 1
+fi
+
+if [[ "$USERNAME" == "<YOUR-ADMIN-USERNAME>" || -z "$USERNAME" ]]; then
+    echo "ERROR: Du må sette USERNAME-variabelen før du kjører scriptet."
+    exit 1
+fi
+
+if [[ "$PASSWORD" == "<YOUR-ADMIN-PASSWORD>" || -z "$PASSWORD" ]]; then
+    echo "ERROR: Du må sette PASSWORD-variabelen før du kjører scriptet."
+    echo "       Passordet må være minst 12 tegn og inneholde store/små bokstaver, tall og spesialtegn."
+    exit 1
+fi
+
+# =============================================================================
+# Derived variables (ikke nødvendig å endre disse)
+# =============================================================================
+RESOURCE_GROUP="rg-vm-demo-${LOCATION}-001"
+VM_NAME="vm-demo-${LOCATION}-001"
+VNET_NAME="vnet-vm-demo-${LOCATION}-001"
+SUBNET_NAME="snet-vm-demo-${LOCATION}-001"
+NSG_NAME="nsg-vm-demo-${LOCATION}-001"
+IMAGE="Ubuntu2204"
+
+# =============================================================================
+# Del 1: Opprett Resource Group
+# =============================================================================
+echo "Oppretter Resource Group '$RESOURCE_GROUP' i '$LOCATION'..."
+az group create \
+    --name "$RESOURCE_GROUP" \
+    --location "$LOCATION"
+
+# =============================================================================
+# Del 2: Opprett VNet og Subnet
+# =============================================================================
+echo ""
+echo "Oppretter VNet '$VNET_NAME' med subnet '$SUBNET_NAME'..."
+az network vnet create \
+    --name "$VNET_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --address-prefixes "10.1.0.0/16" \
+    --subnet-name "$SUBNET_NAME" \
+    --subnet-prefixes "10.1.1.0/24"
+
+# =============================================================================
+# Del 3: Opprett Virtual Machine
+# =============================================================================
+echo ""
+echo "Oppretter VM '$VM_NAME' (SKU: $VM_SKU, image: $IMAGE)..."
+az vm create \
+    --name "$VM_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --size "$VM_SKU" \
+    --image "$IMAGE" \
+    --admin-username "$USERNAME" \
+    --admin-password "$PASSWORD" \
+    --vnet-name "$VNET_NAME" \
+    --subnet "$SUBNET_NAME" \
+    --public-ip-address "" \
+    --nsg "$NSG_NAME"
+
+echo ""
+echo "================================================================"
+echo "VM er opprettet!"
+echo "  Resource Group : $RESOURCE_GROUP"
+echo "  Region         : $LOCATION"
+echo "  VM-navn        : $VM_NAME"
+echo "  VM-størrelse   : $VM_SKU"
+echo "  Brukernavn     : $USERNAME"
+echo "  VNet           : $VNET_NAME"
+echo "  Subnet         : $SUBNET_NAME"
+echo "  NSG            : $NSG_NAME"
+echo ""
+echo "  MERK: VM-en har ingen offentlig IP-adresse."
+echo "        Koble til via Azure Bastion eller legg til en offentlig IP manuelt."
+echo "================================================================"

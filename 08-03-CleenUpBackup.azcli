@@ -1,0 +1,25 @@
+resourceGroupName="rg-vm-backup-demo-002" # Change this to your preferred resource group name
+location="uksouth" # Change this to your preferred Azure location
+vmName="vm-demo-002" # Change this to your preferred VM name
+vaultName="vault-vm-backup-demo-002" # Change this to your preferred backup vault name
+redundancy="LocallyRedundant" # Locally redundant storage
+backupManagementType="AzureIaasVM" # Azure IaaS VM backup - allowd values: AzureWorkload, AzureIaasVM, MAB, DPM, AzureStorage
+workloadType="VM" # VM backup - allowed values: VM, FileFolder, SQLDataBase, SQLInstance, SAPASE, SAPHana, SystemState, Client, Exchange, SharePoint, DataShare, AzureFileShare, AzureWorkload, GenericData, MSSQLDataBase, MSSQLInstance, MySQL, PostgreSQL, MariaDB, Oracle, AzureSQLDatabase, AzureSQLInstance, AzureFileShare, AzureWorkload
+policyName="EnhancedPolicy" # Change this to your created backup policy name, accepted default values: DefaultPolicy, EnhancedPolicy, GrandfatherPolicy, InstantRP, RPOPolicy, SimpleBackupPolicy, TransactionLogBackupPolicy
+
+# Cleen up the backup infrastructure
+az backup protection disable \
+    --resource-group $resourceGroupName \
+    --vault-name $vaultName \
+    --container-name $vmName \
+    --item-name $vmName \
+    --backup-management-type $backupManagementType \
+    --delete-backup-data true
+
+# Delete the backup vault
+az backup vault delete \
+    --resource-group $resourceGroupName \
+    --name $vaultName
+
+# Delete the resource group
+az group delete --name $resourceGroupName --yes --no-wait
