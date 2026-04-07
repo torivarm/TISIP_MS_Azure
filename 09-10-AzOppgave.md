@@ -20,9 +20,9 @@ Etter laben skal du kunne:
 ## ✅ Forutsetninger
 - **PowerShell 7** (`pwsh`)
 - **Az-modul** installert:
-  ```powershell
+```powershell
   Install-Module Az -Scope CurrentUser
-````
+```
 
 * Konto med tilgang til **Azure for Students** (du trenger *Contributor* eller tilsvarende i ditt abonnement)
 
